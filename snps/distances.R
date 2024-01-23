@@ -1,3 +1,50 @@
+# ----------------------------------------------------------------------------------------------------
+#' Calculate Pairwise Distances Between Markers
+#' 
+#' This function calculates the pairwise distances between genetic markers
+#' represented in a given matrix. It is designed to work with a binary matrix where each row represents
+#' a marker and each column represents an individual. The function computes distances using a specific
+#' distance metric suited for marker data.
+#'
+#' @param x A binary matrix where each row represents a marker and each column 
+#' represents an individual. The matrix should contain binary data (0 and 1),
+#' where 0 and 1 represent the two possible alleles for each marker.
+#'
+#' @return A symmetric matrix of pairwise distances between markers. Each element [i, j] 
+#' in the matrix represents the distance between the i-th and j-th markers. The distance
+#' metric used accounts for the possibility of flipped markers, adjusting distances 
+#' accordingly.
+#'
+#' @examples
+#' # Example matrix of SNPs
+#' snp.matrix <- matrix(c(0, 0, 1, 1,
+#'                        0, 1, 1, 0, 
+#'                        1, 0, 1, 1, 
+#'                        0, 1, 0, 0), 
+#'                      nrow = 4, byrow = TRUE)
+#' # Calculate pairwise distances
+#' distances <- markerDist(snp.matrix)
+#' 
+#' # The expected output will be:
+#' #      [,1] [,2] [,3] [,4]
+#' # [1,]    0    2    1    1
+#' # [2,]    2    0    1    1
+#' # [3,]    1    1    0    0
+#' # [4,]    1    1    0    0
+#'
+#' @author Anna Igolkina
+#' 
+#' @export
+markerDist <- function(x){
+  
+  x.dist =  x %*% t(x) + (1-x) %*% t(1-x)
+  idx.flip = x.dist > (ncol(x) / 2)
+  x.dist[idx.flip] = ncol(x) - x.dist[idx.flip]
+  
+  return(x.dist)
+}
+
+# ----------------------------------------------------------------------------------------------------
 #' Count the Number of Pairwise Gametes for Adjacent SNPs
 #'
 #' This function calculates the number of different gametes (genetic combinations)
@@ -20,13 +67,13 @@
 #'
 #' @examples
 #' # Example matrix of SNPs
-#' snp_matrix <- matrix(c(0, 0, 1, 1,
+#' snp.matrix <- matrix(c(0, 0, 1, 1,
 #'                        0, 1, 1, 0, 
 #'                        1, 0, 1, 1, 
 #'                        0, 1, 0, 0), 
 #'                      nrow = 4, byrow = TRUE)
 #' # Calculate pairwise gametes, result should be `4 3 2`
-#' neiGametes(snp_matrix)
+#' neiGametes(snp.matrix)
 #' 
 #' @author Anna Igolkina
 #'
@@ -44,3 +91,5 @@ neiGametes <- function(x){
   
   return(n.gam)
 }
+
+
