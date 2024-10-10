@@ -1,4 +1,3 @@
-# ----------------------------------------------------------------------------------------------------
 #' Calculate Pairwise Distances Between Markers
 #' 
 #' This function calculates the pairwise distances between genetic markers
@@ -44,7 +43,6 @@ markerDist <- function(x){
   return(x.dist)
 }
 
-# ----------------------------------------------------------------------------------------------------
 #' Count the Number of Pairwise Gametes for Adjacent SNPs
 #'
 #' This function calculates the number of different gametes (genetic combinations)
