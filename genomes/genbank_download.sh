@@ -119,7 +119,7 @@ mv "${path}md5sum.txt" "${path}${genome_id}_md5sum.txt"
 if [ "$name" = "" ]; then
     name=${genome_id}
 fi
-name="${name//./_}"
+# name="${name//./_}"
 
 
 if [ "$name" != "" ]; then
