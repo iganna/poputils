@@ -85,11 +85,19 @@ fi
 
 [ ! -d "$path" ] && mkdir -p "$path"
 
+if [ "$name" = "" ]; then
+    name=${genome_id}
+fi
 
 # ----------------------------------------------------------------------------
 #           MAIN 
 # ----------------------------------------------------------------------------
 
+# Check if the final file already exists
+if [ -f "${path}/${name}.fasta" ]; then
+    echo "Final file ${name}.fasta already exists. Exiting script."
+    exit 0
+fi
 
 # Download the genome data
 curl -L "https://api.ncbi.nlm.nih.gov/datasets/v2alpha/genome/accession/${genome_id}/download?include_annotation_type=GENOME_FASTA" -o "${path}/${genome_id}.zip"
@@ -113,14 +121,6 @@ mv "${path}md5sum.txt" "${path}${genome_id}_md5sum.txt"
 
 
 # Rename and save the name
-
-# echo "name ${name}"
-
-if [ "$name" = "" ]; then
-    name=${genome_id}
-fi
-# name="${name//./_}"
-
 
 if [ "$name" != "" ]; then
     fna_filename=$(basename "${fna_file}")
