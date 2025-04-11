@@ -105,7 +105,7 @@ curl -L "https://api.ncbi.nlm.nih.gov/datasets/v2alpha/genome/accession/${genome
 echo "Download complete. File saved to ${path}/${genome_id}.zip"
 
 # Get the genome file
-unzip "${path}/${genome_id}.zip" -d "${path}"
+unzip -q "${path}/${genome_id}.zip" -d "${path}"
 fna_file=$(find "${path}/ncbi_dataset/data/${genome_id}/" -type f -name "*fna" -print -quit)
 
 
